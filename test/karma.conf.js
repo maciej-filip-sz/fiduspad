@@ -1,7 +1,10 @@
 module.exports = function(config) {
   config.set({
     frameworks: ["jasmine"],
-    browsers: ["PhantomJS"],
+    browsers: [
+      //"Firefox",
+      "PhantomJS"
+    ],
 
     preprocessors: {
       "../lib/*.js": "coverage"
@@ -24,6 +27,8 @@ module.exports = function(config) {
     files: [
       "../bower_components/codemirror/lib/codemirror.js",
       "../bower_components/firebase/firebase.js",
+
+      "../lib/fidus-annotators.js",
 
       "../lib/utils.js",
       "../lib/span.js",
