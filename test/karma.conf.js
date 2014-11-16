@@ -28,8 +28,6 @@ module.exports = function(config) {
       "../bower_components/codemirror/lib/codemirror.js",
       "../bower_components/firebase/firebase.js",
 
-      "../lib/fidus-annotators.js",
-
       "../lib/utils.js",
       "../lib/span.js",
       "../lib/text-op.js",
@@ -57,6 +55,9 @@ module.exports = function(config) {
       "../lib/text-pieces-to-inserts.js",
       "../lib/headless.js",
       "../lib/firepad.js",
+
+      "../lib/fiduspad-utils.js",
+      "../lib/fiduspad.js",
 
       "specs/helpers.js",
       "specs/*.spec.js"

@@ -1,6 +1,6 @@
 describe('Comment', function () {
   'use strict';
-  var Firepad = firepad.Firepad;
+  var Fiduspad = fiduspad.Fiduspad;
   var TextOperation = firepad.TextOperation;
   var Pos = CodeMirror.Pos;
   var _cmDiv;
@@ -15,7 +15,7 @@ describe('Comment', function () {
   }
 
   function makeFidusPad(htmlContents) {
-    var fp = new Firepad(
+    var fp = new Fiduspad(
       new Firebase('https://firepad-test.firebaseio-demo.com').push(),
       new CodeMirror(cmDiv())
     );
@@ -27,8 +27,8 @@ describe('Comment', function () {
     return fp.codeMirror_.display.view[lineNo].node.innerHTML;
   }
 
-  function setSelection(fidusPad, selection) {
-    return fidusPad.codeMirror_.setSelection(selection.from, selection.to);
+  function setSelection(fp, selection) {
+    return fp.codeMirror_.setSelection(selection.from, selection.to);
   }
 
   function getMarkedSpans(fp, lineNo) {
