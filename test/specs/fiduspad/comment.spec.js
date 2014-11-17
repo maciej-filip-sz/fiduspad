@@ -1,5 +1,13 @@
+/*
+TODO:
+  comment applies only to selection, not cursor
+  adjacent comments are not merged
+
+*/
+
 describe('Comment', function () {
   'use strict';
+  var CommentStore = fiduspad.CommentStore;
   var Fiduspad = fiduspad.Fiduspad;
   var TextOperation = firepad.TextOperation;
   var Pos = CodeMirror.Pos;
@@ -16,6 +24,7 @@ describe('Comment', function () {
 
   function makeFidusPad(htmlContents) {
     var fp = new Fiduspad(
+      new CommentStore(),
       new Firebase('https://firepad-test.firebaseio-demo.com').push(),
       new CodeMirror(cmDiv())
     );
@@ -31,29 +40,36 @@ describe('Comment', function () {
     return fp.codeMirror_.setSelection(selection.from, selection.to);
   }
 
+  function moveCursorInto(fp, selection) {
+    return fp.codeMirror_.doc.setCursor(
+      selection.from.line,
+      1 + selection.from.ch
+    );
+  }
+
   function getMarkedSpans(fp, lineNo) {
     return fp.codeMirror_.doc.children[0].lines[lineNo].markedSpans;
   }
 
 
-  describe('display', function () {
+  describe('displays', function () {
     var cases = [
-      { description: 'marks range with comment style',
+      { description: 'comment style on marked span',
         givenContents: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
         // Lorem |ipsum| dolor sit amet, consectetur adipiscing elit.
         givenSelection: {
           from: new Pos(0, 1+ 'Lorem '.length),   // !!! why is there an offset?
           to: new Pos(0, 1+ 'Lorem '.length + 'ipsum'.length),
         },
-        expectedClassName: ' firepad-comment',    // !!! why are there leading spaces?
+        expectedClassName: ' firepad-comment firepad-cid-1',    // !!! why are there leading spaces?
         expectedRange: {
           from: 1+ 'Lorem '.length,
           to: 1+ 'Lorem '.length + 'ipsum'.length
         },
         expectedHTML: [
-          '<span style="padding-right: 0.1px; ">',
+          '<span>',
             'Lorem ',
-            '<span class="  firepad-comment">ipsum</span>',
+            '<span class="  firepad-comment firepad-cid-1">ipsum</span>',
             ' dolor sit amet, consectetur adipiscing elit.',
           '</span>'
         ].join(''),
@@ -66,7 +82,7 @@ describe('Comment', function () {
         fp.on('ready', function () {
           fp.setHtml(c_.givenContents);
           setSelection(fp, c_.givenSelection);
-          fp.comment();
+          fp.makeComment();
 
           var markedSpan = getMarkedSpans(fp, 0)[1];
           var actualRange = {
@@ -83,4 +99,36 @@ describe('Comment', function () {
       });
     });
   });
+
+//  !!!
+//  describe('signals', function () {
+//    var cases = [
+//      { description: 'when cursor enters marked span',
+//        givenContents: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+//        // Lorem |ipsum| dolor sit amet, consectetur adipiscing elit.
+//        givenSelection: {
+//          from: new Pos(0, 1+ 'Lorem '.length),
+//          to: new Pos(0, 1+ 'Lorem '.length + 'ipsum'.length),
+//        },
+//      },
+//    ];
+//
+//    cases.forEach(function (c_) {
+//      it(c_.description, function (done) {
+//        var fp = makeFidusPad();
+//        fp.on('ready', function () {
+//          fp.setHtml(c_.givenContents);
+//          setSelection(fp, c_.givenSelection);
+//
+//          fp.makeComment(beforeCursorHandler);
+//          //moveCursorInto(fp, c_.givenSelection);
+//
+//          function beforeCursorHandler() {
+//            done();
+//          }
+//        });
+//
+//      });
+//    });
+//  });
 });

@@ -68,16 +68,17 @@ THE SOFTWARE.
       var codeMirror = CodeMirror(document.getElementById('fiduspad-container'), { lineWrapping: true });
 
       //// Create Fiduspad (with rich text toolbar and shortcuts enabled).
-      var fiduspad = new Fiduspad(
+      var fp = new fiduspad.Fiduspad(
+        new fiduspad.CommentStore(),
         firepadRef,
         codeMirror,
         { richTextToolbar: true, richTextShortcuts: true }
       );
 
       //// Initialize contents.
-      fiduspad.on('ready', function() {
-        if (fiduspad.isHistoryEmpty()) {
-          fiduspad.setHtml(
+      fp.on('ready', function() {
+        //if (fp.isHistoryEmpty()) {
+          fp.setHtml(
               '<span style="font-size: 24px;">Rich-text editing with <span style="color: red">Firepad!</span></span><br/>\n' +
               '<br/>' +
               '<div style="font-size: 18px">' +
@@ -105,11 +106,11 @@ THE SOFTWARE.
                 '<li>And it\'s all fully collaborative!</li>' +
               '</ul>' +
               '</div>');
-        }
+        //}
       });
 
       // An example of a complex custom entity.
-      fiduspad.registerEntity('checkbox', {
+      fp.registerEntity('checkbox', {
         render: function (info, entityHandler) {
           var inputElement = document.createElement('input');
           inputElement.setAttribute('type', 'checkbox');
@@ -145,7 +146,7 @@ THE SOFTWARE.
       });
 
       window.cm = codeMirror;
-      window.fp = fiduspad;
+      window.fp = fp;
     }
 
     // Helper to get hash from end of URL or generate a random one.

@@ -2,8 +2,8 @@ module.exports = function(config) {
   config.set({
     frameworks: ["jasmine"],
     browsers: [
-      //"Firefox",
-      "PhantomJS"
+      "Firefox",
+      //"PhantomJS"
     ],
 
     preprocessors: {
@@ -60,7 +60,8 @@ module.exports = function(config) {
       "../lib/fiduspad.js",
 
       "specs/helpers.js",
-      "specs/*.spec.js"
+      //"specs/*.spec.js",
+      "specs/fiduspad/*.spec.js",
     ]
   });
 };

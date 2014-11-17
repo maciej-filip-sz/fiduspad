@@ -100,9 +100,9 @@ module.exports = function (grunt) {
             '  if (typeof module != \'undefined\' && module.exports) module.exports = definition();',
             '  else if (typeof context[\'define\'] == \'function\' && context[\'define\'][\'amd\']) define(definition);',
             '  else context[name] = definition();',
-            '})(\'Fiduspad\', function () {'
+            '})(\'fiduspad\', function () {'
           ].join('\n'),
-          footer: "\nreturn fiduspad.Fiduspad; }, this);"
+          footer: "\nreturn fiduspad; }, this);"
         },
         "src": [
           "lib/utils.js",
